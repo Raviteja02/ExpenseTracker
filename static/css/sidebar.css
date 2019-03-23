@@ -1,0 +1,111 @@
+/* MY CUSTOM STYLES */
+
+
+.navbar {
+    background: #22242a;
+    border-radius: 0px;
+}
+
+.navbar-brand {
+    margin-left: 20px;
+}
+
+.side-wrapper {
+    width: 200px;
+    background: #333846;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    transition: width 0.1s;
+    display: block;
+}
+
+.side-wrapper.not {
+    width: 0px;
+    background: #333846;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    transition: width 0.5s;
+}
+
+.side-wrapper>.list-unstyled>li>a>p {
+    color: white !important
+}
+
+.link a p i{
+    color: #60ade5 !important
+}
+
+.link-alt {
+    color: white;
+    padding: 10px 15px;
+    display: block;
+}
+
+.alternate {
+    width: 0px;
+    background: #333846;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    transition: width 0.2s;
+    display: none;
+}
+
+.alternate.no {
+    width: 50px;
+    background: #333846;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    transition: width 0.5s;
+    display: block;
+}
+
+.alternate.no .link-alt a i{
+    color: #60ade5 !important
+}
+
+.side-wrapper>.list-unstyled>li.link {
+    padding-top: 10px;
+    padding-left: 20px;
+    display: block
+}
+
+.side-wrapper>.list-unstyled>li>a>p>.fa {
+    margin-right: 15px;
+}
+
+li.list-subheader {
+    padding-top: 0px;
+    color: #afafb4
+}
+
+li small b {
+    font-size: 10px !important;
+    padding-top: 1px;
+    padding-left: 20px;
+}
+
+.fa-bars {
+    border: 1px solid white;
+    border-radius: 100%;
+    padding: 10px 12px 10px 12px;
+    cursor: pointer
+}
+
+.link.lone {
+    padding-top: 30px !important;
+}
+
+.link-alt.lone{
+    padding-top: 33px !important;
+}
+
+.main {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}

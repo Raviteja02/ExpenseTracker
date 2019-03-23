@@ -1,0 +1,308 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Expense Tracker</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="{%  static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+  <!-- Material Design Bootstrap -->
+  <link href="{%  static 'css/mdb.min.css' %}" rel="stylesheet" type="text/css">
+  <!-- Your custom styles (optional) -->
+  <link href="{%  static 'css/style.css' %}" rel="stylesheet" type="text/css">
+  <style>
+  .view {
+    background: url("{% static 'img/Expenses.png' %}")no-repeat center center;
+    background-size: cover;
+}
+html,
+body,
+header,
+.view {
+  height: 100%;
+}
+</style>
+</head>
+
+
+
+  <!-- Start your project here-->
+  <body class="fixed-sn light-blue-skin">
+
+  <!--Double navigation-->
+  <html lang="en" class="full-height">
+
+<!--Main Navigation-->
+<header>
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark indigo">
+    <a class="navbar-brand" href="#"><strong>Expense Tracker</strong></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Groups/ViewGroups/">Groups</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Profile</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="mt-5 pt-3">
+    <div class="card offset-md-4 offset-sm-1 my-5 mt-5" style="max-width: 35rem;">
+    <div class="card-header text-center light-blue darken-3 white-text ">
+    <h4 class="card-title">Create a Group</h4>
+    </div>
+    <div class="card-body p-5">
+        {% if messages %}
+  {% for msg in messages %}
+    <div class="alert alert-info alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{msg.message}}
+    </div>
+  {% endfor %}
+{% endif %}
+
+        <form  id="Myform"  method="POST" action="Groups/CreateGroup/">
+            {% csrf_token %}
+        <div class="md-form mb-5">
+          <i class="fas fa-calendar-plus prefix grey-text"></i>
+          <input type="text" id="GroupName" class="form-control" name="GroupName">
+          <label >Group Name</label>
+        </div>
+
+    <div id="czContainer">
+            <div id="first">
+       <div class="recordset">
+                    <div class="fieldRow clearfix">
+                        <div class="row">
+                        <div class="col-md-6">
+                            <div id="Member_0_Name" class="md-form mb-5">
+
+                                   <i class="fas fa-tablets prefix grey-text"></i>
+                                <input type="text" name="Member_0_Name" id="Member_0_Name" class="form-control">
+                                <label>Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="Member_0_Email" class="md-form mb-5">
+                                    <i class="fas fa-clipboard-list prefix grey-text"></i>
+                                    <input type="email" class="form-control" id="Member_0_Email" name="Member_0_Email">
+                                    <label>Email Address</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+
+
+
+
+
+      <div class="text-center">
+        <button class="btn btn-default" type="submit" id="Create Group">Create Group</button>
+      </div>
+  </form>
+  </div>
+</div>
+  <!--Grid column-->
+    </div>
+
+
+</header>
+<!--Main Navigation-->
+
+<!--Main Layout-->
+<main class="text-center py-5">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+
+        <p align="justify">quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+          anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+          ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+      </div>
+    </div>
+  </div>
+
+</main>
+<!--Main Layout-->
+<!-- Card -->
+  <!--Main Layout-->
+  <!-- /Start your project here-->
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{%  static 'js/jquery-3.3.1.min.js' %}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{%  static 'js/popper.min.js' %}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{%  static 'js/bootstrap.min.js' %}"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="{%  static 'js/mdb.js' %}"></script>
+
+  <script type="text/javascript">
+        (function ($, undefined) {
+    $.fn.czMore = function (options) {
+
+        //Set defauls for the control
+        var defaults = {
+            max: 5,
+            min: 0,
+            onLoad: null,
+            onAdd: null,
+            onDelete: null,
+            styleOverride: false,
+        };
+        //Update unset options with defaults if needed
+        var options = $.extend(defaults, options);
+        $(this).bind("onAdd", function (event, data) {
+            options.onAdd.call(event, data);
+        });
+        $(this).bind("onLoad", function (event, data) {
+            options.onLoad.call(event, data);
+        });
+        $(this).bind("onDelete", function (event, data) {
+            options.onDelete.call(event, data);
+        });
+        //Executing functionality on all selected elements
+        return this.each(function () {
+            var obj = $(this);
+            var i = obj.children(".recordset").length;
+            var divPlus = '<i class="fas fa-2x fa-plus-square md-form mb-5" id="btnPlus"></i>';
+            var count = '<input id="' + this.id + '_czMore_txtCount" name="' + this.id + '_czMore_txtCount" type="hidden" value="0" size="5" />';
+
+            obj.before(count);
+            var recordset = obj.children("#first");
+            obj.after(divPlus);
+            var set = recordset.children(".recordset").children().first();
+            var btnPlus = obj.siblings("#btnPlus");
+
+            if(!options.styleOverride) {
+              btnPlus.css({
+                  'float': 'right',
+                      'border': '0px',
+
+                      'background-position': 'center center',
+                      'background-repeat': 'no-repeat',
+                      'height': '25px',
+                      'width': '25px',
+                  'cursor': 'pointer',
+              });
+            }
+
+            if (recordset.length) {
+                obj.siblings("#btnPlus").click(function () {
+                    var i = obj.children(".recordset").length;
+                    var item = recordset.clone().html();
+                    i++;
+                    item = item.replace(/\[([0-9]\d{0})\]/g, "[" + i + "]");
+                    item = item.replace(/\_([0-9]\d{0})\_/g, "_" + i + "_");
+                    //$(element).html(item);
+                    //item = $(item).children().first();
+                    //item = $(item).parent();
+
+                    obj.append(item);
+                    loadMinus(obj.children().last());
+                    minusClick(obj.children().last());
+                    if (options.onAdd != null) {
+                        obj.trigger("onAdd", i);
+                    }
+
+                    obj.siblings("input[name$='czMore_txtCount']").val(i);
+                    return false;
+                });
+                recordset.remove();
+                for (var j = 0; j <= i; j++) {
+                    loadMinus(obj.children()[j]);
+                    minusClick(obj.children()[j]);
+                    if (options.onAdd != null) {
+                        obj.trigger("onAdd", j);
+                    }
+                }
+
+                if (options.onLoad != null) {
+                    obj.trigger("onLoad", i);
+                }
+                //obj.bind("onAdd", function (event, data) {
+                //If you had passed anything in your trigger function, you can grab it using the second parameter in the callback function.
+                //});
+            }
+
+            function resetNumbering() {
+                $(obj).children(".recordset").each(function (index, element) {
+                   $(element).find('input:text, input:password, input:file, select, textarea').each(function(){
+                        old_name = this.name;
+                        new_name = old_name.replace(/\_([0-9]\d{0})\_/g, "_" + (index + 1) + "_");
+                        this.id = this.name = new_name;
+                        //alert(this.name);
+                    });
+                    index++
+                    minusClick(element);
+                });
+            }
+
+            function loadMinus(recordset) {
+                var divMinus = '<i class="fas fa-times fa-2x md-form mb-5" id="btnMinus"></i>';
+                $(recordset).children().first().before(divMinus);
+                var btnMinus = $(recordset).children("#btnMinus");
+                if(!options.styleOverride) {
+                  btnMinus.css({
+                      'float': 'right',
+                      'border': '0px',
+
+                      'background-position': 'center center',
+                      'background-repeat': 'no-repeat',
+                      'height': '25px',
+                      'width': '25px',
+                      'cursor': 'poitnter',
+                  });
+              }
+            }
+
+            function minusClick(recordset) {
+                $(recordset).children("#btnMinus").click(function () {
+                    var i = obj.children(".recordset").length;
+                    var id = $(recordset).attr("data-id")
+                    $(recordset).remove();
+                    resetNumbering();
+                    obj.siblings("input[name$='czMore_txtCount']").val(obj.children(".recordset").length);
+                    i--;
+                    if (options.onDelete != null) {
+                        if (id != null)
+                            obj.trigger("onDelete", id);
+                    }
+                });
+            }
+        });
+    };
+})(jQuery);
+        $("#czContainer").czMore();
+    </script>
+</body>
+
+</html>
