@@ -7,5 +7,6 @@ urlpatterns =[
     path('CreateGroup/', views.CreateGroup),
     path('ViewGroups/UserGroup/', views.UserGroup),
     path('ViewGroups/UserGroup/AddMember/', views.AddMember),
+    path('ViewGroups/UserGroup/AddBill/', views.AddBill),
 
 ]
