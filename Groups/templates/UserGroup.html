@@ -87,11 +87,23 @@
         <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <h3 class="display-4">{{ name }}</h3>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-3">
                     <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#AddBillForm">Add Bill</button>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title"><a>Group Balances</a></h4>
+                          {% if owes %}
+                            {% for key,value in owes.items %}
+                        <p class="card-text">{{ key }} owes {{ value }}</p>
+                            {% endfor %}
+                        {% endif %}
+                      </div>
+                    </div>
                 </div>
             </div>
             <hr>
@@ -137,7 +149,16 @@
     {% endfor %}
     </tbody>
   </table>
+{% if owes %}
+        <ul>
+            {% for key, value in owes.items  %}
+        {{ key }}, {{ value}}
+    {% endfor %}
 
+        </ul>
+    {% else %}
+        <strong>There are no logs present.</strong>
+    {% endif %}
 
 
         </div>

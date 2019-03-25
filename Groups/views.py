@@ -3,6 +3,7 @@ from .models import Group,GroupMembers,ExpenseCategory,Expense,ShareBill
 from django.http import HttpResponse
 from django.contrib import messages
 from django.db.models import Q
+import decimal
 # Create your views here.
 
 
@@ -47,8 +48,32 @@ def UserGroup(request):
         Members = GroupMembers.objects.filter(GroupId=id)
         categories = ExpenseCategory.objects.all()
         Expen = Expense.objects.filter(GroupId_id=id)
-        return render(request, 'UserGroup.html', {'name': groupname,'members': Members,
-                                                  'categories': categories, 'Expen':Expen})
+
+        for x in Expen:
+            bill_id = x.id
+            bills = ShareBill.objects.filter(bill_id=bill_id)
+            persons = bills.values_list('PersonId', flat=True).distinct()
+            for y in persons:
+                share = ShareBill.objects.get(bill_id=bill_id, PersonId=y)
+                TotalShare = share.share
+                print(TotalShare)
+            print("------")
+
+        AllBills = ShareBill.objects.filter(GroupId_id=id)
+        Pids = AllBills.values_list('PersonId', flat=True).distinct()
+        owes = {}
+        for Pid in Pids:
+            bills = ShareBill.objects.filter(PersonId=Pid)
+            sum = 0.0
+            for bill in bills:
+                t = bill.share
+                sum = sum + t
+                owe = GroupMembers.objects.get(GroupId_id=id, id=Pid)
+            owes[owe.Name] = sum
+        print(owes)
+
+        return render(request, 'UserGroup.html',{'name': groupname,'members': Members,
+                                                  'categories': categories, 'Expen':Expen,'owes':owes})
     return render(request, 'home.html')
 
 
@@ -67,7 +92,31 @@ def AddMember(request):
         Members = GroupMembers.objects.filter(GroupId=id)
         categories = ExpenseCategory.objects.all()
         Expen = Expense.objects.filter(GroupId_id=id)
-        return render(request, 'UserGroup.html', {'name': groupname, 'members': Members,
+
+        for x in Expen:
+            bill_id = x.id
+            bills = ShareBill.objects.filter(bill_id=bill_id)
+            persons = bills.values_list('PersonId', flat=True).distinct()
+            for y in persons:
+                share = ShareBill.objects.get(bill_id=bill_id, PersonId=y)
+                TotalShare = share.share
+                print(TotalShare)
+            print("------")
+
+        AllBills = ShareBill.objects.filter(GroupId_id=id)
+        Pids = AllBills.values_list('PersonId', flat=True).distinct()
+        owes = {}
+        for Pid in Pids:
+            bills = ShareBill.objects.filter(PersonId=Pid)
+            sum = 0.0
+            for bill in bills:
+                t = bill.share
+                sum = sum + t
+                owe = GroupMembers.objects.get(GroupId_id=id, id=Pid)
+            owes[owe.Name] = sum
+        print(owes)
+
+        return render(request, 'UserGroup.html', owes,{'name': groupname, 'members': Members,
                                                   'categories': categories, 'Expen': Expen})
     return render(request, 'home.html')
 
@@ -92,7 +141,7 @@ def AddBill(request):
         paidby = paid.id
 
         shares = GroupMembers.objects.filter(GroupId=groupid).count()
-        share = Amount / shares
+        share = round(Amount / shares,2)
         lent = Amount - share
 
         Expenses = Expense(GroupId_id=groupid,description=Category,amount=Amount,paidby_id=paidby,category_id=categoryid,
@@ -116,9 +165,62 @@ def AddBill(request):
         categories = ExpenseCategory.objects.all()
         Expen = Expense.objects.filter(GroupId_id=groupid)
 
-        return render(request,'UserGroup.html', {'name': groupname,'members':Members,
+        for x in Expen:
+            bill_id = x.id
+            bills = ShareBill.objects.filter(bill_id=bill_id)
+            persons = bills.values_list('PersonId', flat=True).distinct()
+            for y in persons:
+                share = ShareBill.objects.get(bill_id=bill_id, PersonId=y)
+                TotalShare = share.share
+                print(TotalShare)
+            print("------")
+
+        AllBills = ShareBill.objects.filter(GroupId_id=groupid)
+        Pids = AllBills.values_list('PersonId', flat=True).distinct()
+        owes = {}
+        for Pid in Pids:
+            bills = ShareBill.objects.filter(PersonId=Pid)
+            sum = 0.0
+            for bill in bills:
+                t = bill.share
+                sum = sum + t
+                owe = GroupMembers.objects.get(GroupId_id=groupid, id=Pid)
+            owes[owe.Name] = sum
+        print(owes)
+
+        return render(request,'UserGroup.html', owes,{'name': groupname,'members':Members,
                                                  'categories': categories,'Expen':Expen})
     return render(request, 'home.html')
 
 
 
+def Sharing(request):
+    groupid = 1
+    Expen = Expense.objects.filter(GroupId_id=groupid)
+    for x in Expen:
+        bill_id = x.id
+        bills = ShareBill.objects.filter(bill_id=bill_id)
+        persons = bills.values_list('PersonId', flat=True).distinct()
+        for y in persons:
+            share = ShareBill.objects.get(bill_id=bill_id,PersonId=y)
+            TotalShare = share.share
+            print(TotalShare)
+        print("------")
+
+
+    AllBills = ShareBill.objects.filter(GroupId_id=groupid)
+    Pids = AllBills.values_list('PersonId', flat=True).distinct()
+    owes = {}
+    for Pid in Pids:
+        bills = ShareBill.objects.filter(PersonId=Pid)
+        sum = 0.0
+        for bill in bills:
+            t = bill.share
+            sum = sum+t
+            owe = GroupMembers.objects.get(GroupId_id=groupid,id=Pid)
+        owes[owe.Name] =sum
+    print(owes)
+    print("****")
+
+
+    return None

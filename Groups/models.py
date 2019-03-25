@@ -34,8 +34,8 @@ class GroupMembers(models.Model):
 class Expense(models.Model):
 
     description = models.CharField(max_length=1000)
-    amount = models.DecimalField(max_digits=18, decimal_places=2, default=0)
-    lent = models.DecimalField(max_digits=18, decimal_places=2, default=0)
+    amount = models.FloatField()
+    lent = models.FloatField()
     date = models.DateField(timezone.now())
     category = models.ForeignKey(ExpenseCategory, on_delete=models.CASCADE)
     paidby = models.ForeignKey(GroupMembers,on_delete=models.CASCADE)
@@ -49,5 +49,5 @@ class ShareBill(models.Model):
     bill_id = models.ForeignKey(Expense,on_delete=models.CASCADE)
     GroupId = models.ForeignKey(Group, on_delete=models.CASCADE)
     PersonId = models.ForeignKey(GroupMembers,on_delete=models.CASCADE)
-    share = models.DecimalField(max_digits=18, decimal_places=2, default=0)
+    share = models.FloatField()
 
