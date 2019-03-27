@@ -20,6 +20,6 @@ from Groups import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index,name='welcome'),
+    path('', views.Registration,name='Registration'),
     path('Groups/', include('Groups.urls'))
 ]

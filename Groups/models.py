@@ -4,8 +4,13 @@ from django.utils import timezone
 # Create your models here.
 
 
-class Group(models.Model):
+class Register(models.Model):
+    Email = models.EmailField()
+    Password = models.CharField(max_length=20)
 
+
+class Group(models.Model):
+    email_id = models.ForeignKey(Register, on_delete=models.CASCADE)
     GroupName = models.CharField(max_length=20)
     date_created = models.DateTimeField(auto_now_add=True)
 
