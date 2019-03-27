@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Expense Tracker</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="{%  static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+  <!-- Material Design Bootstrap -->
+  <link href="{%  static 'css/mdb.min.css' %}" rel="stylesheet" type="text/css">
+  <!-- Your custom styles (optional) -->
+  <link href="{%  static 'css/style.css' %}" rel="stylesheet" type="text/css">
+
+ <body class="fixed-sn light-blue-skin">
+
+
+  <html lang="en" class="full-height">
+
+<!--Main Navigation-->
+<header>
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark indigo">
+    <a class="navbar-brand" href="#"><strong>Expense Tracker</strong></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Groups/Login/">Login</a>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="mt-5 pt-3">
+    <div class="card offset-md-4 offset-sm-1 my-5 mt-5" style="max-width: 35rem;">
+    <div class="card-header text-center light-blue darken-3 white-text ">
+    <h4 class="card-title">Register for Expense Traker</h4>
+    </div>
+    <div class="card-body p-5">
+        <!--message-->
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="alert alert-info alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{msg.message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+          <!--message ending-->
+<form  method="POST" action="">
+    {% csrf_token %}
+    <div class="md-form mb-5">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <input type="email"  class="form-control" name="email" required>
+          <label >Email</label>
+        </div>
+    <div class="row">
+        <div class="col-md-6">
+        <div class="md-form mb-5">
+          <i class="fas fa-key prefix grey-text"></i>
+          <input type="text"  class="form-control" name="Password1" required>
+          <label >Password</label>
+        </div>
+        </div>
+        <div class="col-md-6">
+        <div class="md-form mb-5">
+          <i class="fas fa-key prefix grey-text"></i>
+          <input type="text"  class="form-control" name="Password2" required>
+          <label >Confirm Password</label>
+        </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-default" type="submit">Submit</button>
+      </div>
+</form>
+
+</div>
+</div>
+  <!--Grid column-->
+    </div>
+
+
+</header>
+<!--Main Navigation-->
+
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{%  static 'js/jquery-3.3.1.min.js' %}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{%  static 'js/popper.min.js' %}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{%  static 'js/bootstrap.min.js' %}"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="{%  static 'js/mdb.js' %}"></script>
