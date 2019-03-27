@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Group, GroupMembers, ExpenseCategory, Expense, ShareBill, Register
 from django.contrib import messages
+from django.http import HttpResponse
+import json
 
 
 def Registration(request):
@@ -43,6 +45,7 @@ def logout(request):
     if request.session.has_key('Email'):
         request.session.flush()
         return render(request, 'register.html')
+    return render(request,'register.html')
 
 
 def index(request):
@@ -111,6 +114,7 @@ def UserGroup(request):
 
         return render(request, 'UserGroup.html',{'name': groupname,'members': Members,
                                                   'categories': categories, 'Expen':Expen,'owes':owes})
+
     return render(request, 'home.html')
 
 
@@ -150,8 +154,8 @@ def AddBill(request):
             paidby = paid.id
 
             shares = GroupMembers.objects.filter(GroupId=groupid).count()
-            share = round(Amount / shares,2)
-            lent = Amount - share
+            share = round(Amount / shares, 2)
+            lent = round(Amount - share, 2)
 
             Expenses = Expense(GroupId_id=groupid,description=Category,amount=Amount,paidby_id=paidby,category_id=categoryid,
                                date=Date,lent=lent)
@@ -172,3 +176,32 @@ def AddBill(request):
             messages.add_message(request, messages.INFO, 'Bill Added Successfully')
             return redirect('UserGroup')
     return render(request, 'home.html')
+
+
+def filter(request):
+    if request.session.has_key('Email'):
+        Email = request.session['Email']
+        x = Register.objects.get(Email=Email)
+        group = Group.objects.get(email_id=x)
+        groupid = group.id
+        if request.method == "POST":
+            Name = request.POST['Name']
+            Month = request.POST['Month']
+            Member = GroupMembers.objects.get(GroupId_id=groupid,Name=Name)
+            memid = Member.id
+            e = Expense.objects.filter(paidby_id=memid,date__month=Month)
+            totexp = 0
+            categories = []
+            spent =[]
+            for Expe in e:
+                y = Expe.lent
+                totexp = totexp + (y/2)
+                c = Expe.description
+                categories.append(c)
+                a = Expe.amount
+                l = Expe.lent
+                s = a - l
+                spent.append(s)
+            print(categories)
+            print(spent)
+    return render(request,'Groups.html',{'Expen':e,'total':totexp,'Name':Name,'categories':json.dumps(categories),'spent':json.dumps(spent)})

@@ -9,4 +9,5 @@ urlpatterns =[
     path('ViewGroups/UserGroup/AddMember/', views.AddMember),
     path('ViewGroups/UserGroup/AddBill/', views.AddBill),
     path('ViewGroups/UserGroup/', views.UserGroup,name='UserGroup'),
+    path('ViewGroups/UserGroup/Filter/', views.filter),
 ]

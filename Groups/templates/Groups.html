@@ -8,6 +8,9 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Expense Tracker</title>
   <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
   <!-- Bootstrap core CSS -->
   <link href="{%  static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
@@ -15,18 +18,7 @@
   <link href="{%  static 'css/mdb.min.css' %}" rel="stylesheet" type="text/css">
   <!-- Your custom styles (optional) -->
   <link href="{%  static 'css/style.css' %}" rel="stylesheet" type="text/css">
-  <style>
-  .view {
-    background: url("{% static 'img/Expenses.png' %}")no-repeat center center;
-    background-size: cover;
-}
-html,
-body,
-header,
-.view {
-  height: 100%;
-}
-</style>
+    <link href="{%  static 'css/dashboard2.css' %}" rel="stylesheet" />
 </head>
 
 
@@ -48,43 +40,80 @@ header,
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item ">
-          <a class="nav-link" href="/">Home </a>
+          <a class="nav-link" href="/Groups/ViewGroups/UserGroup/">Dashboard</a>
         </li>
       </ul>
     </div>
   </nav>
-
-
-    <div class="mt-5 pt-3">
-    <div class="card offset-md-4 offset-sm-1 my-5 mt-5" style="max-width: 35rem;">
-    <div class="card-header text-center light-blue darken-3 white-text ">
-    <h4 class="card-title">Available Groups</h4>
-    </div>
-    <div class="card-body p-5">
-        <form method="POST" action="./UserGroup/">
-        {% csrf_token %}
-          <div class="md-form mb-5">
-              <select class="browser-default custom-select" name="GroupName" id="GroupName">
-                  <option disabled selected>Group Name</option>
-                  {% for Group in Groups %}
-                      <option value="{{ Group.GroupName }}">{{ Group.GroupName }}</option>
-                  {% endfor %}
-              </select>
-          </div>
-            <div class="text-center">
-        <button class="btn btn-default" type="submit" >Continue With Group</button>
+</header>
+<div class="wrapper ">
+    <div class="sidebar mt-5 pt-5" data-color="purple" data-background-color="white">
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item active  ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">assessment</i>
+              <p>Monthly Analysis</p>
+            </a>
+          </li>
+          <!-- your sidebar here -->
+        </ul>
       </div>
-  </form>
+    </div>
+
+    <div class="main-panel mt-5 p-5">
+
+    <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h2 class="display-4">Hello {{ Name }}</h2>
+    <p class="lead">Your Total Expenses For the Month is {{ total }}.</p>
   </div>
 </div>
-  <!--Grid column-->
+        {% if Expen %}
+  <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th class="th-md">Date
+
+        </th>
+        <th class="th-md">Description
+
+        </th>
+        <th class="th-md">Amount
+
+        </th>
+        <th class="th-md">Paidby
+
+        </th>
+        <th class="th-md">Lents
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% for Exp in Expen %}
+      <tr>
+        <td>{{ Exp.date }}</td>
+        <td>{{ Exp.description }}</td>
+        <td>{{ Exp.amount }}</td>
+        <td>{{ Exp.paidby.Name }}</td>
+        <td>{{ Exp.paidby.Name }} Lent {{ Exp.lent }} to Group.</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+    {% else %}
+    <h4>There are No bills Yet to display Here...</h4>
+{% endif %}
+<div class="offset-md-4">
+    <div style="height: 50vh">
+    <div class="flex flex-column">
+      <canvas id="myChart" style="max-width: 500px;"></canvas>
     </div>
-
-
-</header>
-
-
-
+  </div>
+</div>
+    </div>
+</div>
   <!-- SCRIPTS -->
   <!-- JQuery -->
   <script type="text/javascript" src="{%  static 'js/jquery-3.3.1.min.js' %}"></script>
@@ -94,6 +123,50 @@ header,
   <script type="text/javascript" src="{%  static 'js/bootstrap.min.js' %}"></script>
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="{%  static 'js/mdb.js' %}"></script>
+
+     <script>
+    var categories = ({{ categories|safe }});
+    var spent =({{ spent|safe }})
+
+  var ctx = document.getElementById("myChart").getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: categories,
+      datasets: [{
+        label: 'Monthly Spent On Different Categories',
+        data: spent,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+
+</script>
 
   </body>
 

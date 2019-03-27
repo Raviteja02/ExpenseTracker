@@ -51,14 +51,20 @@
             {% endfor %}
         <li class="nav-item">
             <a class="nav-link" href="#" data-toggle="modal" data-target="#AddMemberForm">
-              <i class="material-icons">dashboard</i>
-              <p>Add Group Member</p>
+              <i class="material-icons">add_box</i>
+              <h4>Add Group Member</h4>
             </a>
           </li>
         <li class="nav-item">
             <a class="nav-link" href="#" data-toggle="modal" data-target="#AddBillForm">
-              <i class="material-icons">dashboard</i>
-              <p>Add Bill</p>
+              <i class="material-icons">description</i>
+              <h4>Add Bill</h4>
+            </a>
+          </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#AnalysisForm">
+              <i class="material-icons">assessment</i>
+              <h4>Monthly Analysis</h4>
             </a>
           </li>
           <!-- your sidebar here -->
@@ -136,7 +142,7 @@
         <th class="th-md">Paidby
 
         </th>
-        <th class="th-md">You Lent
+        <th class="th-md">Lents
         </th>
 
       </tr>
@@ -260,6 +266,52 @@
   </div>
 </div>
 
+<div class="modal" id="AnalysisForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center light-blue darken-3 white-text ">
+        <h4 class="modal-title w-100 font-weight-bold"><i class="fas fa-users"></i> Monthly Analysis</h4>
+        <button type="button" class="btn-primary p-2 btn-rounded close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+
+        <form method="POST" action="/Groups/ViewGroups/UserGroup/Filter/" >
+            {% csrf_token %}
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+              <select class="browser-default custom-select" name="Name" id="Name">
+                  <option disabled selected>Name</option>
+                  {% for member in members %}
+                      <option value="{{ member.Name }}">{{ member.Name }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+        <div class="md-form mb-5">
+              <select class="browser-default custom-select" name="Month" id="Month">
+                  <option disabled selected>Month</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">Agust</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+          </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-default" type="submit">View Analysis</button>
+      </div>
+            </form>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript" src="{%  static 'js/jquery-3.3.1.min.js' %}"></script>
   <!-- Bootstrap tooltips -->
   <script type="text/javascript" src="{%  static 'js/popper.min.js' %}"></script>
@@ -272,9 +324,6 @@
         window.history.replaceState( null, null, window.location.href );
     }
 </script>
-
-
-
 
 </body>
 
