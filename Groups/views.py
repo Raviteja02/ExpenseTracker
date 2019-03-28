@@ -10,15 +10,21 @@ def Registration(request):
         Email = request.POST['email']
         pwd = request.POST['Password1']
         pwd2 = request.POST['Password2']
-        if pwd == pwd2:
-            reg = Register(Email=Email, Password= pwd)
-            reg.save()
-            request.session['Email'] = Email
-        else:
-            messages.add_message(request, messages.INFO, 'Please Ensure That You have Entered All The Fields Correctly')
-            return redirect('Registration')
+        try:
+            email = Register.objects.get(Email=Email)
+            if email:
+                messages.add_message(request, messages.INFO, 'Email Already Exists You Can Try A Different One')
+                return redirect('Registration')
+        except:
+            if pwd == pwd2:
+                reg = Register(Email=Email, Password= pwd)
+                reg.save()
+                request.session['Email'] = Email
+                return redirect('index')
+            else:
+                messages.add_message(request, messages.INFO, 'Please Ensure That You have Entered All The Fields Correctly')
+                return redirect('Registration')
 
-        return redirect('index')
     return render(request, 'register.html')
 
 
@@ -44,8 +50,8 @@ def login(request):
 def logout(request):
     if request.session.has_key('Email'):
         request.session.flush()
-        return render(request, 'register.html')
-    return render(request,'register.html')
+        return redirect('Register')
+    return render(request, 'register.html')
 
 
 def index(request):
@@ -61,22 +67,29 @@ def CreateGroup(request):
         x = Register.objects.get(Email=Email)
         if request.method == "POST":
             GroupName = request.POST['GroupName']
-            group = Group(GroupName=GroupName,email_id=x)
-            group.save()
+            try:
+                group = Group.objects.get(GroupName=GroupName)
+                if group:
+                    messages.add_message(request, messages.INFO, 'Group Name Already taken You Can Try Different One.')
+                    return redirect('index')
+            except:
+                GroupName = request.POST['GroupName']
+                group = Group(GroupName=GroupName, email_id=x)
+                group.save()
 
-            count = int(request.POST['czContainer_czMore_txtCount'])
-            i = 1
-            while i <= count:
-                MemberName = request.POST['Member_' + str(i) + '_Name']
-                MemberEmail = request.POST['Member_' + str(i) + '_Email']
+                count = int(request.POST['czContainer_czMore_txtCount'])
+                i = 1
+                while i <= count:
+                    MemberName = request.POST['Member_' + str(i) + '_Name']
+                    MemberEmail = request.POST['Member_' + str(i) + '_Email']
 
-                Members =GroupMembers(GroupId=group,Name=MemberName,Email=MemberEmail)
-                Members.save()
+                    Members = GroupMembers(GroupId=group, Name=MemberName, Email=MemberEmail)
+                    Members.save()
 
-                i+=1
+                    i += 1
 
-            messages.add_message(request, messages.INFO, 'Group Created Successfully.')
-            return redirect('UserGroup')
+                messages.add_message(request, messages.INFO, 'Group Created Successfully.')
+                return redirect('UserGroup')
     return redirect('index')
 
 
