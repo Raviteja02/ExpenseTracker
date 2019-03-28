@@ -32,11 +32,8 @@ def login(request):
     if request.method == "POST":
         Email = request.POST['email']
         Password = request.POST['password']
-        print(Email)
-        print(Password)
         try:
             x = Register.objects.get(Email=Email)
-            print(x)
             pwd = x.Password
             if pwd == Password:
                 request.session['Email'] = Email
@@ -203,18 +200,29 @@ def filter(request):
             Member = GroupMembers.objects.get(GroupId_id=groupid,Name=Name)
             memid = Member.id
             e = Expense.objects.filter(paidby_id=memid,date__month=Month)
-            totexp = 0
-            categories = []
-            spent =[]
-            for Expe in e:
-                y = Expe.lent
-                totexp = totexp + (y/2)
-                c = Expe.description
-                categories.append(c)
-                a = Expe.amount
-                l = Expe.lent
-                s = a - l
-                spent.append(s)
-            print(categories)
-            print(spent)
-    return render(request,'Groups.html',{'Expen':e,'total':totexp,'Name':Name,'categories':json.dumps(categories),'spent':json.dumps(spent)})
+            catlist = []
+            catspent = []
+            for i in e:
+                id = i.category_id
+                if id not in catlist:
+                    catlist.append(id)
+
+            for a in catlist:
+                spe = Expense.objects.filter(paidby_id=memid, date__month=Month,category_id= a)
+                sum = 0
+                for k in spe:
+                    t = k.lent
+                    sum = sum+(t/2)
+                catspent.append(sum)
+
+            total = 0
+            for b in catspent:
+                total = total+b
+
+            categoryname = []
+            for c in catlist:
+                x = ExpenseCategory.objects.get(id=c)
+                catname = x.name
+                categoryname.append(catname)
+
+    return render(request,'Groups.html',{'Expen':e,'total':total,'Name':Name,'categories':json.dumps(categoryname),'spent':json.dumps(catspent)})
